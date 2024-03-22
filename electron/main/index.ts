@@ -134,6 +134,11 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
+autoUpdater.on('checking-for-update', () => {
+  console.log('checking-for-update')
+
+  log.info('업데이트 확인 중...');
+});
 autoUpdater.on('update-available', () => {
   console.log('wtf wtf')
   log.info("update-available")
