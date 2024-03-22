@@ -3,6 +3,7 @@ import { release } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pkg from 'electron-updater';
+import log from "electron-log";
 const { autoUpdater: autoUpdater } = pkg;
 
 globalThis.__filename = fileURLToPath(import.meta.url)
@@ -101,6 +102,7 @@ app.on('second-instance', () => {
 
 app.on('ready', () => {
   // createWindow();
+  log.info("ready for app")
   autoUpdater.checkForUpdatesAndNotify();
 })
 
@@ -109,6 +111,7 @@ app.on('activate', () => {
   if (allWindows.length) {
     allWindows[0].focus()
   } else {
+    log.info("create window")
     createWindow()
   }
 })
@@ -132,19 +135,26 @@ ipcMain.handle('open-win', (_, arg) => {
 
 autoUpdater.on('update-available', () => {
   console.log('wtf wtf')
+  log.info("update-available")
+
   win.webContents.send('update_available');
 })
 
 autoUpdater.on('update-downloaded', () => {
   console.log('wtf wtf')
+  log.info("update-downloaded")
 
   win.webContents.send('update_downloaded');
 })
 
 ipcMain.on("app_version", (event) => {
+  log.info("app_version,,,, ", app.getVersion())
+
   event.sender.send("app_version", { version: app.getVersion() });
 });
 
 ipcMain.on('restart_app', () => {
+  log.info("restart app for install")
+
   autoUpdater.quitAndInstall();
 })
