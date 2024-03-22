@@ -141,6 +141,10 @@ autoUpdater.on('update-downloaded', () => {
   win.webContents.send('update_downloaded');
 })
 
+ipcMain.on("app_version", (event) => {
+  event.sender.send("app_version", { version: app.getVersion() });
+});
+
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 })
