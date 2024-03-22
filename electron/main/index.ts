@@ -131,10 +131,13 @@ ipcMain.handle('open-win', (_, arg) => {
 })
 
 autoUpdater.on('update-available', () => {
+  console.log('wtf wtf')
   win.webContents.send('update_available');
 })
 
 autoUpdater.on('update-downloaded', () => {
+  console.log('wtf wtf')
+
   win.webContents.send('update_downloaded');
 })
 

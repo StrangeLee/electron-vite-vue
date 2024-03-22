@@ -33,6 +33,9 @@ npm install
 
 # develop
 npm run dev
+
+# git release
+npm run build -- -p always
 ```
 
 ## Debug
