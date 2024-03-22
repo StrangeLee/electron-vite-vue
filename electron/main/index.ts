@@ -2,6 +2,8 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { release } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import pkg from 'electron-updater';
+const { autoUpdater: autoUpdater } = pkg;
 
 globalThis.__filename = fileURLToPath(import.meta.url)
 globalThis.__dirname = dirname(__filename)
@@ -95,6 +97,11 @@ app.on('second-instance', () => {
   }
 })
 
+app.on('ready', () => {
+  createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+})
+
 app.on('activate', () => {
   const allWindows = BrowserWindow.getAllWindows()
   if (allWindows.length) {
@@ -119,4 +126,16 @@ ipcMain.handle('open-win', (_, arg) => {
   } else {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
+})
+
+autoUpdater.on('update-available', () => {
+  win.webContents.send('update_available');
+})
+
+autoUpdater.on('update-downloaded', () => {
+  win.webContents.send('update_downloaded');
+})
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
 })

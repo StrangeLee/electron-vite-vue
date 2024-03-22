@@ -1,9 +1,9 @@
 {
   "name": "electron-vue-vite",
-  "version": "28.0.1",
+  "version": "28.0.2",
   "main": "dist-electron/main/index.js",
   "description": "Really simple Electron + Vue + Vite boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "author": "lsh",
   "license": "MIT",
   "private": true,
   "keywords": [
@@ -34,5 +34,12 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vue": "^3.4.21",
     "vue-tsc": "^2.0.6"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/chunil-energy/electron-vite-vue.git"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.8"
   }
 }
