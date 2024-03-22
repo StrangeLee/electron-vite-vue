@@ -68,6 +68,7 @@ async function createWindow() {
     win.loadURL(url)
     // Open devTool if the app is not packaged
     win.webContents.openDevTools()
+    autoUpdater.checkForUpdatesAndNotify();
   } else {
     win.loadFile(indexHtml)
     autoUpdater.checkForUpdatesAndNotify();
@@ -83,6 +84,8 @@ async function createWindow() {
     if (url.startsWith('https:')) shell.openExternal(url)
     return { action: 'deny' }
   })
+  autoUpdater.checkForUpdatesAndNotify();
+
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
@@ -114,6 +117,7 @@ app.on('activate', () => {
   } else {
     log.info("create window")
     createWindow()
+    autoUpdater.checkForUpdatesAndNotify();
   }
 })
 
@@ -139,11 +143,16 @@ autoUpdater.on('checking-for-update', () => {
 
   log.info('업데이트 확인 중...');
 });
-autoUpdater.on('update-available', () => {
+
+autoUpdater.on('update-available', (info) => {
   console.log('wtf wtf')
   log.info("update-available")
 
   win.webContents.send('update_available');
+})
+
+autoUpdater.on('update-not-available', () => {
+  log.info("update is not AVAIALBE")
 })
 
 autoUpdater.on('update-downloaded', () => {
