@@ -70,6 +70,7 @@ async function createWindow() {
     win.webContents.openDevTools()
   } else {
     win.loadFile(indexHtml)
+    autoUpdater.checkForUpdatesAndNotify();
   }
 
   // Test actively push message to the Electron-Renderer
@@ -147,8 +148,11 @@ autoUpdater.on('update-downloaded', () => {
   win.webContents.send('update_downloaded');
 })
 
-ipcMain.on("app_version", (event) => {
-  log.info("app_version,,,, ", app.getVersion())
+ipcMain.on("app_version", (event, ...args) => {
+  if (args.length > 0) {
+    log.info("app_version,,,, ", args[0])
+  }
+
 
   event.sender.send("app_version", { version: app.getVersion() });
 });

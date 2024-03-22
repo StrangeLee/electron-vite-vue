@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+const version = import.meta.env.VITE_VERSION;
+
+window.ipcRenderer.on('get-app-version', (event, ...args) => {
+  console.log('get event, ', ...args)
+});
+
+window.ipcRenderer.send('app_version', version);
+// Electron.webContents.on('did-finish-load', () => {
+//     Electron?.webContents.send('main-process-message', new Date().toLocaleString())
+//   })
+
 </script>
 
 <template>
