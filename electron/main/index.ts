@@ -147,6 +147,7 @@ autoUpdater.on('checking-for-update', () => {
 autoUpdater.on('update-available', (info) => {
   console.log('wtf wtf')
   log.info("update-available")
+  alert("새로운 업데이트가 있습니다. 업데이트 이후 사용해주세요.")
 
   win.webContents.send('update_available');
 })
